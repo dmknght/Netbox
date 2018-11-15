@@ -316,6 +316,11 @@ class IPAddressFilter(CustomFieldFilterSet, django_filters.FilterSet):
             return queryset
         qs_filter = (
             Q(description__icontains=value) |
+            # TODO create func as work here
+            """
+            TEMPLATE: Cut NetID from value
+            For example: 192.168.10.6/24 -> NetID = 192.168.0.0 -> Search 192.168.
+            """
             Q(address__istartswith=value)
         )
         return queryset.filter(qs_filter)
