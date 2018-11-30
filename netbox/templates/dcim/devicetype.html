@@ -55,7 +55,10 @@
                 </tr>
                 <tr>
                     <td>Model Name</td>
-                    <td>{{ devicetype.model }}</td>
+                    <td>
+                        {{ devicetype.model }}<br/>
+                        <small class="text-muted">{{ devicetype.slug }}</small>
+                    </td>
                 </tr>
                 <tr>
                     <td>Part Number</td>
@@ -164,7 +167,7 @@
             <div class="panel-heading">
                 <strong>Comments</strong>
             </div>
-            <div class="panel-body">
+            <div class="panel-body rendered-markdown">
                 {% if devicetype.comments %}
                     {{ devicetype.comments|gfm }}
                 {% else %}
