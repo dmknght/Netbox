@@ -16,7 +16,7 @@ from utilities.views import (
 from virtualization.models import VirtualMachine
 from . import filters, forms, tables
 from .constants import IPADDRESS_ROLE_ANYCAST, PREFIX_STATUS_ACTIVE, PREFIX_STATUS_DEPRECATED, PREFIX_STATUS_RESERVED
-from .models import Aggregate, IPAddress, Prefix, RIR, Role, Service, VLAN, VLANGroup, VRF
+from .models import Aggregate, IPAddress, Prefix, RIR, Role, Service, VLAN, VLANGroup, VRF, Rules
 
 
 def add_available_prefixes(parent, prefix_list):
@@ -674,11 +674,16 @@ class IPAddressView(View):
         )
         related_ips_table = tables.IPAddressTable(list(related_ips), orderable=False)
 
+        q_ip = str(ipaddress.address).split("/")[0]
+        ip_rules = Rules.rules.filter(source__icontains=q_ip).values() | Rules.rules.filter(dest__icontains=q_ip).values()
+        ip_rules = tables.IPAddressTableRules(list(ip_rules), orderable=False)
+
         return render(request, 'ipam/ipaddress.html', {
             'ipaddress': ipaddress,
             'parent_prefixes_table': parent_prefixes_table,
             'duplicate_ips_table': duplicate_ips_table,
             'related_ips_table': related_ips_table,
+            'ip_rules': ip_rules,
         })
 
 

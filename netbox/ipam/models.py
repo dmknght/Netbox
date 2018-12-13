@@ -481,6 +481,80 @@ class Prefix(ChangeLoggedModel, CustomFieldModel):
                 prefix_size -= 2
             return int(float(child_count) / prefix_size * 100)
 
+class RulesManager(models.Manager):
+    def get_queryset(self):
+        qs = super(RulesManager, self).get_queryset()
+        return qs.annotate(host=RawSQL('ipam_rules.source', [])).order_by('source', 'dest')
+
+
+@python_2_unicode_compatible
+class Rules(ChangeLoggedModel, CustomFieldModel):
+    rule_id = models.CharField(
+        max_length = 8,
+        primary_key = True,
+        #db_column = "No."
+    )
+    type = models.CharField(
+        max_length = 64,
+        #db_column = "Type",
+    )
+    name = models.CharField(
+        max_length = 128,
+        #db_column = "Name",
+        blank=True,
+        default = 'None'
+        #null=True,
+    )
+    source = models.CharField(
+        max_length = 256,
+        #db_column = "Source",
+    )
+    dest = models.CharField(
+        max_length = 256,
+        #db_column = "Destination",
+    )
+    vpn = models.CharField(
+        max_length = 16,
+        #db_column = "VPN",
+    )
+    service = models.CharField(
+        max_length = 512,
+        #db_column = "Services & Applications" 
+   )
+    content = models.CharField(
+        max_length = 16,
+        #db_column = "Content"
+    )
+    action = models.CharField(
+        max_length = 16,
+        #db_column = "Action"
+    )
+    track = models.CharField(
+        max_length = 16,
+        #db_column = "Track",
+    )
+    install = models.CharField(
+        max_length = 32,
+        #db_column = "Install On"
+    )
+    section = models.CharField(
+        max_length = 32,
+        #db_column = "Section" 
+   )
+    rules = RulesManager()
+
+    # def __str__(self):
+    #     return str(self.source)
+    # def get_source(self):
+    #     return str(self.source)
+    # def get_dest(self):
+    #     return str(self.dest)
+
+    class Meta:
+        db_table = 'ipam_rules'
+        ordering = ['rule_id', 'name','source', 'dest', 'action']
+        #verbose_name = 'IP address rules'
+        #verbose_name_plural = 'IP addresses rules'
 
 class IPAddressManager(models.Manager):
 
@@ -571,6 +645,7 @@ class IPAddress(ChangeLoggedModel, CustomFieldModel):
 
     objects = IPAddressManager()
     tags = TaggableManager()
+    #rules = IPAddressRulesManager()
 
     csv_headers = [
         'address', 'vrf', 'tenant', 'status', 'role', 'device', 'virtual_machine', 'interface_name', 'is_primary',

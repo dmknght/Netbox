@@ -6,7 +6,7 @@ from django_tables2.utils import Accessor
 from dcim.models import Interface
 from tenancy.tables import COL_TENANT
 from utilities.tables import BaseTable, BooleanColumn, ToggleColumn
-from .models import Aggregate, IPAddress, Prefix, RIR, Role, Service, VLAN, VLANGroup, VRF
+from .models import Aggregate, IPAddress, Prefix, RIR, Role, Service, VLAN, VLANGroup, VRF, Rules
 
 RIR_UTILIZATION = """
 <div class="progress">
@@ -329,6 +329,26 @@ class PrefixDetailTable(PrefixTable):
 #
 # IPAddresses
 #
+
+class IPAddressTableRules(BaseTable):
+    #pk = ToggleColumn()
+    rule_id = tables.Column("No.")
+    type = tables.Column("Type")
+    name = tables.Column("Name")
+    source = tables.Column("Source")
+    dest = tables.Column("Destinaiton")
+    vpn = tables.Column("VPN")
+    service = tables.Column('Services & Applications')
+    content = tables.Column("Content")
+    action = tables.Column("Action")
+    track = tables.Column("Track")
+    install = tables.Column("Install On")
+    section = tables.Column("Section")
+
+    class Meta(BaseTable.Meta):
+        model = IPAddress
+        fields = ("rule_id", "type", "name", "source", "dest", "vpn", "service", "content", "action", "track", "install", "section")
+
 
 class IPAddressTable(BaseTable):
     pk = ToggleColumn()
