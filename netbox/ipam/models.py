@@ -492,69 +492,59 @@ class Rules(ChangeLoggedModel, CustomFieldModel):
     rule_id = models.CharField(
         max_length = 8,
         primary_key = True,
-        #db_column = "No."
     )
     type = models.CharField(
+        default="None",
         max_length = 64,
-        #db_column = "Type",
     )
     name = models.CharField(
         max_length = 128,
-        #db_column = "Name",
-        blank=True,
+        null=True,
         default = 'None'
-        #null=True,
     )
     source = models.CharField(
-        max_length = 256,
-        #db_column = "Source",
+        default="None",
+        max_length = 512,
     )
     dest = models.CharField(
-        max_length = 256,
-        #db_column = "Destination",
+        default="None",
+        max_length = 512,
     )
     vpn = models.CharField(
+        default="None",
         max_length = 16,
-        #db_column = "VPN",
     )
     service = models.CharField(
+        default="None",
         max_length = 512,
-        #db_column = "Services & Applications" 
    )
     content = models.CharField(
+        default="None",
         max_length = 16,
-        #db_column = "Content"
     )
     action = models.CharField(
+        default="None",
         max_length = 16,
-        #db_column = "Action"
     )
     track = models.CharField(
+        default="None",
         max_length = 16,
-        #db_column = "Track",
     )
     install = models.CharField(
+        default="None",
         max_length = 32,
-        #db_column = "Install On"
     )
     section = models.CharField(
+        default="None",
         max_length = 32,
-        #db_column = "Section" 
-   )
+        )
     rules = RulesManager()
 
-    # def __str__(self):
-    #     return str(self.source)
-    # def get_source(self):
-    #     return str(self.source)
-    # def get_dest(self):
-    #     return str(self.dest)
 
     class Meta:
         db_table = 'ipam_rules'
         ordering = ['rule_id', 'name','source', 'dest', 'action']
-        #verbose_name = 'IP address rules'
-        #verbose_name_plural = 'IP addresses rules'
+
 
 class IPAddressManager(models.Manager):
 
@@ -634,18 +624,40 @@ class IPAddress(ChangeLoggedModel, CustomFieldModel):
         help_text='The IP for which this address is the "outside" IP'
     )
     description = models.CharField(
-        max_length=100,
-        blank=True
+        max_length=128,
+        blank=True,
+        null = True
     )
     custom_field_values = GenericRelation(
         to='extras.CustomFieldValue',
         content_type_field='obj_type',
         object_id_field='obj_id'
     )
+    hostname = models.CharField(
+        max_length = 128,
+        null = True,
+    )
+    
+    owner = models.CharField(
+        max_length = 128,
+        null = True,
+    )
+    operating_system = models.CharField(
+        max_length = 100,
+        null = True,
+    )
+
+
+    created = models.DateField(
+        # auto_now = True,
+        # auto_now_add = True,
+        blank = True,
+        null = True,
+        #input_formats = ["%d-%m-%Y"]
+    )
 
     objects = IPAddressManager()
     tags = TaggableManager()
-    #rules = IPAddressRulesManager()
 
     csv_headers = [
         'address', 'vrf', 'tenant', 'status', 'role', 'device', 'virtual_machine', 'interface_name', 'is_primary',

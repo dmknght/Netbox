@@ -336,7 +336,7 @@ class IPAddressTableRules(BaseTable):
     type = tables.Column("Type")
     name = tables.Column("Name")
     source = tables.Column("Source")
-    dest = tables.Column("Destinaiton")
+    dest = tables.Column("Destination")
     vpn = tables.Column("VPN")
     service = tables.Column('Services & Applications')
     content = tables.Column("Content")
@@ -353,28 +353,30 @@ class IPAddressTableRules(BaseTable):
 class IPAddressTable(BaseTable):
     pk = ToggleColumn()
     address = tables.TemplateColumn(IPADDRESS_LINK, verbose_name='IP Address')
-    vrf = tables.TemplateColumn(VRF_LINK, verbose_name='VRF')
+    # vrf = tables.TemplateColumn(VRF_LINK, verbose_name='VRF')
     status = tables.TemplateColumn(STATUS_LABEL)
-    tenant = tables.TemplateColumn(template_code=TENANT_LINK)
-    parent = tables.TemplateColumn(IPADDRESS_PARENT, orderable=False)
-    interface = tables.Column(orderable=False)
+    # tenant = tables.TemplateColumn(template_code=TENANT_LINK)
+    # parent = tables.TemplateColumn(IPADDRESS_PARENT, orderable=False)
+    # interface = tables.Column(orderable=False)
 
     class Meta(BaseTable.Meta):
         model = IPAddress
-        fields = ('pk', 'address', 'vrf', 'status', 'role', 'tenant', 'parent', 'interface', 'description')
+        # fields = ('pk', 'address', 'vrf', 'status', 'role', 'tenant', 'parent', 'interface', 'description')
+        fields = ('pk', 'address', 'status', 'description')
         row_attrs = {
             'class': lambda record: 'success' if not isinstance(record, IPAddress) else '',
         }
 
 
 class IPAddressDetailTable(IPAddressTable):
-    nat_inside = tables.LinkColumn(
-        'ipam:ipaddress', args=[Accessor('nat_inside.pk')], orderable=False, verbose_name='NAT (Inside)'
-    )
+    # nat_inside = tables.LinkColumn(
+    #     'ipam:ipaddress', args=[Accessor('nat_inside.pk')], orderable=False, verbose_name='NAT (Inside)'
+    # )
 
     class Meta(IPAddressTable.Meta):
         fields = (
-            'pk', 'address', 'vrf', 'status', 'role', 'tenant', 'nat_inside', 'parent', 'interface', 'description',
+            # 'pk', 'address', 'vrf', 'status', 'role', 'tenant', 'nat_inside', 'parent', 'interface', 'description',
+            'pk', 'address', 'status', 'hostname', 'operating_system','owner', 'description'
         )
 
 
