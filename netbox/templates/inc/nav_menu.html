@@ -74,7 +74,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown{% if request.path|contains:'/dcim/rack' %} active{% endif %}">
+                <!-- <li class="dropdown{% if request.path|contains:'/dcim/rack' %} active{% endif %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Racks <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Racks</li>
@@ -112,7 +112,7 @@
                             <a href="{% url 'dcim:rackreservation_list' %}">Reservations</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="dropdown{% if request.path|contains:'/dcim/device,/dcim/virtual-chassis,/dcim/manufacturers/,/dcim/platforms/,-connections/,/dcim/inventory-items/' %} active{% endif %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Devices <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -340,7 +340,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown{% if request.path|contains:'/circuits/' %} active{% endif %}">
+                <!-- <li class="dropdown{% if request.path|contains:'/circuits/' %} active{% endif %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Circuits <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Circuits</li>
@@ -374,7 +374,7 @@
                             <a href="{% url 'circuits:provider_list' %}">Providers</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 {% if request.user.is_authenticated %}
                     <li class="dropdown{% if request.path|contains:'/secrets/' %} active{% endif %}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Secrets <span class="caret"></span></a>
